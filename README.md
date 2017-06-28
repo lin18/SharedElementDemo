@@ -1,4 +1,4 @@
 # SharedElementDemo
 <br>
 <br>
-<br>![](https://github.com/lin18/SharedElementDemo/blob/master/ezgif.gif?raw=true)
+<br>![image](https://github.com/lin18/SharedElementDemo/blob/master/ezgif.gif?raw=true)
