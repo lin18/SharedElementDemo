@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--<item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="21">true</item>-->
+        <!--<item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="21">true</item>-->
+        <!--<item name="android:windowSharedElementsUseOverlay" tools:targetApi="21">false</item>-->
+    </style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.Details">
+        <!--<item name="android:windowSharedElementEnterTransition">-->
+            <!--@transition/shared_main_detail-->
+        <!--</item>-->
+        <!--<item name="android:windowEnterTransition">@transition/details_window_enter_transition</item>-->
+        <!--<item name="android:windowReturnTransition">@transition/details_window_return_transition</item>-->
+    </style>
+
+</resources>
