@@ -41,8 +41,10 @@ public class SharedElementEnterCallback extends SharedElementCallback {
     @Override
     public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
         removeObsoleteElements(names, sharedElements, mapObsoleteElements(names));
-        mapSharedElement(names, sharedElements, mIcon);
-        mapSharedElement(names, sharedElements, mTitle);
+        if (mIcon != null)
+            mapSharedElement(names, sharedElements, mIcon);
+        if (mTitle != null)
+            mapSharedElement(names, sharedElements, mTitle);
     }
 
     /**

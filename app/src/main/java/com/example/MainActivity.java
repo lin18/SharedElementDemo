@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements PictureAdapter.On
                     setExitSharedElementCallback(callback);
                 }
             };
-            
+
     ProgressBar mProgress;
     RecyclerView mRecyclerView;
 

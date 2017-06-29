@@ -94,6 +94,10 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void setActivityResult() {
+        if (position == viewpager.getCurrentItem()) {
+            setResult(RESULT_OK);
+            return;
+        }
         Intent intent = new Intent();
         intent.putExtra(POSITION_KEY, viewpager.getCurrentItem());
         setResult(RESULT_OK, intent);
@@ -108,7 +112,21 @@ public class ImageActivity extends AppCompatActivity {
         Pair titlePair = Pair.create(mTitle, mTitle.getTransitionName());
         Pair iconPair = Pair.create(mIcon, mIcon.getTransitionName());
 
-        final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, titlePair, iconPair);
+        View decorView = activity.getWindow().getDecorView();
+        View statusBackground = decorView.findViewById(android.R.id.statusBarBackground);
+        View navBackground = decorView.findViewById(android.R.id.navigationBarBackground);
+        Pair statusPair = Pair.create(statusBackground,
+                statusBackground.getTransitionName());
+
+        final ActivityOptions options;
+        if (navBackground == null) {
+            options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                    titlePair, iconPair, statusPair);
+        } else {
+            Pair navPair = Pair.create(navBackground, navBackground.getTransitionName());
+            options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                    titlePair, iconPair, statusPair, navPair);
+        }
         activity.startActivity(intent, options.toBundle());
     }
 }
