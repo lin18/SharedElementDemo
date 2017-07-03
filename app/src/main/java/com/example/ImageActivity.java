@@ -45,14 +45,14 @@ public class ImageActivity extends AppCompatActivity {
         postponeEnterTransition();
 
 
-//            TransitionSet transitions = new TransitionSet();
-//            Slide slide = new Slide(Gravity.BOTTOM);
-//            slide.setInterpolator(AnimationUtils.loadInterpolator(this,
-//                    android.R.interpolator.linear_out_slow_in));
-//            slide.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
-//            transitions.addTransition(slide);
-//            transitions.addTransition(new Fade());
-//            getWindow().setEnterTransition(transitions);
+        TransitionSet transitions = new TransitionSet();
+        Slide slide = new Slide(Gravity.BOTTOM);
+        slide.setInterpolator(AnimationUtils.loadInterpolator(this,
+                android.R.interpolator.linear_out_slow_in));
+        slide.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+        transitions.addTransition(slide);
+        transitions.addTransition(new Fade());
+        getWindow().setEnterTransition(transitions);
 
         sharedElementCallback = new SharedElementEnterCallback();
         setEnterSharedElementCallback(sharedElementCallback);
@@ -65,7 +65,7 @@ public class ImageActivity extends AppCompatActivity {
 
 
         viewpager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager(), photoes, sharedElementCallback));
-        viewpager.setOffscreenPageLimit(1);
+//        viewpager.setOffscreenPageLimit(1);
         viewpager.setCurrentItem(position);
         viewpager.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -73,9 +73,9 @@ public class ImageActivity extends AppCompatActivity {
                                        int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (viewpager.getChildCount() > 0) {
                     viewpager.removeOnLayoutChangeListener(this);
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        startPostponedEnterTransition();
-                    }
+//                    if (Build.VERSION.SDK_INT >= 21) {
+//                        startPostponedEnterTransition();
+//                    }
                 }
             }
         });

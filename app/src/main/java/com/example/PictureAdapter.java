@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -74,9 +76,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ChildVie
         holder.mTitle.setText(photo.author + "");
         holder.mTitle.setTransitionName(photo.id + "");
         holder.mIcon.setTransitionName(photo.author);
-        Picasso.with(context)
-                .load(photo.getPhotoUrl(requestedPhotoWidth))
+        Glide.with(context)
+                .load(photo.getPhotoUrl(160))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.mIcon);
+//        Picasso.with(context)
+//                .load(photo.getPhotoUrl(160))
+//                .into(holder.mIcon);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
