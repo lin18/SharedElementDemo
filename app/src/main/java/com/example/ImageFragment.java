@@ -130,7 +130,7 @@ public class ImageFragment extends Fragment {
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 progress.setVisibility(View.GONE);
-                mIcon.setScaleType(ImageView.ScaleType.MATRIX);
+                mIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mIcon.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.scale));
                 return false;
             }
