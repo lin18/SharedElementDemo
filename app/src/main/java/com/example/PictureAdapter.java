@@ -78,7 +78,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ChildVie
         holder.mIcon.setTransitionName(photo.author);
         Glide.with(context)
                 .load(photo.getPhotoUrl(160))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_image)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(holder.mIcon);
 //        Picasso.with(context)
 //                .load(photo.getPhotoUrl(160))

@@ -13,12 +13,14 @@ import java.util.List;
 
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 
+    int position;
     List<Photo> photoes;
     SharedElementEnterCallback  sharedElementCallback;
 
-    public ImagePagerAdapter(FragmentManager fm, List<Photo> photoes,
+    public ImagePagerAdapter(FragmentManager fm, int position, List<Photo> photoes,
                              SharedElementEnterCallback  sharedElementCallback) {
         super(fm);
+        this.position = position;
         this.photoes = photoes;
         this.sharedElementCallback = sharedElementCallback;
     }
@@ -30,7 +32,7 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ImageFragment.newInstance(photoes.get(position));
+        return ImageFragment.newInstance(this.position == position, photoes.get(position));
     }
 
     @Override

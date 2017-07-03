@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.EmptySignature;
@@ -36,12 +38,14 @@ import uk.co.senab.photoview.PhotoView;
 
 public class ImageFragment extends Fragment {
 
+    public final static String IS_CURRENT_KEY = "isCurrent";
     public final static String PHOTO_KEY = "photo";
 
-    public static ImageFragment newInstance(Photo photo) {
+    public static ImageFragment newInstance(boolean isCurrent, Photo photo) {
         ImageFragment fragment = new ImageFragment();
 
         Bundle args = new Bundle();
+        args.putBoolean(IS_CURRENT_KEY, isCurrent);
         args.putParcelable(PHOTO_KEY, photo);
         fragment.setArguments(args);
 
@@ -51,6 +55,8 @@ public class ImageFragment extends Fragment {
     ProgressBar progress;
     PhotoView mIcon;
     TextView mTitle;
+
+    boolean isCurrent;
     Photo photo;
 
     @Nullable
@@ -66,8 +72,7 @@ public class ImageFragment extends Fragment {
         mIcon = (PhotoView) getView().findViewById(android.R.id.icon);
         mTitle = (TextView) getView().findViewById(android.R.id.title);
 
-        mIcon.setScaleType(ImageView.ScaleType.CENTER);
-
+        isCurrent = getArguments().getBoolean(IS_CURRENT_KEY);
         photo = getArguments().getParcelable(PHOTO_KEY);
         final int requestedPhotoWidth = getResources().getDisplayMetrics().widthPixels;
         mTitle.setText(photo.author);
@@ -75,24 +80,25 @@ public class ImageFragment extends Fragment {
         mIcon.setTransitionName(photo.author);
 
         if (isExists(photo.getPhotoUrl(750))) {
+            progress.setVisibility(View.GONE);
             Glide.with(this)
                     .load(photo.getPhotoUrl(750))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .listener(setListener())
-                    .into(setTarget());
+                    .into(mIcon);
         } else {
+            mIcon.setScaleType(ImageView.ScaleType.CENTER);
             progress.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(photo.getPhotoUrl(750))
                     .thumbnail(Glide.with(this)
                             .load(photo.getPhotoUrl(160))
-                            .crossFade()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL))
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .dontAnimate()
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                    .placeholder(R.drawable.ic_image)
                     .listener(setListener())
-                    .into(setTarget());
+                    .into(mIcon);
         }
 //        Picasso.with(getActivity())
 //                .load(photo.getPhotoUrl(1080))
@@ -116,7 +122,8 @@ public class ImageFragment extends Fragment {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                 progress.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "加载高清图片失败", Toast.LENGTH_SHORT).show();
+                if (isCurrent)
+                    Toast.makeText(getActivity(), "加载高清图片失败", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -124,6 +131,7 @@ public class ImageFragment extends Fragment {
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 progress.setVisibility(View.GONE);
                 mIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                mIcon.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.scale));
                 return false;
             }
         };
@@ -134,8 +142,7 @@ public class ImageFragment extends Fragment {
         return new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mIcon.setImageDrawable(resource);
-                getActivity().startPostponedEnterTransition();
+//                getActivity().startPostponedEnterTransition();
             }
         };
     }

@@ -64,7 +64,7 @@ public class ImageActivity extends AppCompatActivity {
         viewpager = (ViewPager) findViewById(R.id.viewpager);
 
 
-        viewpager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager(), photoes, sharedElementCallback));
+        viewpager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager(), position, photoes, sharedElementCallback));
 //        viewpager.setOffscreenPageLimit(1);
         viewpager.setCurrentItem(position);
         viewpager.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -73,9 +73,9 @@ public class ImageActivity extends AppCompatActivity {
                                        int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (viewpager.getChildCount() > 0) {
                     viewpager.removeOnLayoutChangeListener(this);
-//                    if (Build.VERSION.SDK_INT >= 21) {
-//                        startPostponedEnterTransition();
-//                    }
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        startPostponedEnterTransition();
+                    }
                 }
             }
         });
