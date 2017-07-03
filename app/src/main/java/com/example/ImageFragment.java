@@ -83,7 +83,7 @@ public class ImageFragment extends Fragment {
             progress.setVisibility(View.GONE);
             Glide.with(this)
                     .load(photo.getPhotoUrl(750))
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .crossFade()
                     .into(mIcon);
         } else {
@@ -94,8 +94,8 @@ public class ImageFragment extends Fragment {
                     .thumbnail(Glide.with(this)
                             .load(photo.getPhotoUrl(160))
                             .dontAnimate()
-                            .diskCacheStrategy(DiskCacheStrategy.RESULT))
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
 //                    .placeholder(R.drawable.ic_image)
                     .listener(setListener())
                     .into(mIcon);
