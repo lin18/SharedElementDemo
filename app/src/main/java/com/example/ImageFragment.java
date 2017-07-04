@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -93,10 +94,10 @@ public class ImageFragment extends Fragment {
                     .load(photo.getPhotoUrl(750))
                     .thumbnail(Glide.with(this)
                             .load(photo.getPhotoUrl(160))
+                            .placeholder(R.drawable.ic_image)
                             .dontAnimate()
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .placeholder(R.drawable.ic_image)
                     .listener(setListener())
                     .into(mIcon);
         }
