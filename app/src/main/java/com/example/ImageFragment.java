@@ -105,7 +105,7 @@ public class ImageFragment extends Fragment {
                 builder.placeholder(R.drawable.ic_image);
 
             builder.listener(setListener())
-                    .into(setTarget());
+                    .into(mIcon);
         }
 //        Picasso.with(getActivity())
 //                .load(photo.getPhotoUrl(1080))
