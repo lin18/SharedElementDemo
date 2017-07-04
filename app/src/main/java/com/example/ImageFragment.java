@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -85,20 +87,24 @@ public class ImageFragment extends Fragment {
             Glide.with(this)
                     .load(photo.getPhotoUrl(750))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .crossFade()
+                    .dontAnimate()
                     .into(mIcon);
         } else {
+            boolean isThumbnail = isExists(photo.getPhotoUrl(160));
             mIcon.setScaleType(ImageView.ScaleType.CENTER);
             progress.setVisibility(View.VISIBLE);
-            Glide.with(this)
+            DrawableRequestBuilder builder = Glide.with(this)
                     .load(photo.getPhotoUrl(750))
                     .thumbnail(Glide.with(this)
                             .load(photo.getPhotoUrl(160))
-                            .placeholder(R.drawable.ic_image)
                             .dontAnimate()
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE))
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .listener(setListener())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE);
+
+            if (!isThumbnail)
+                builder.placeholder(R.drawable.ic_image);
+
+            builder.listener(setListener())
                     .into(mIcon);
         }
 //        Picasso.with(getActivity())
@@ -132,7 +138,10 @@ public class ImageFragment extends Fragment {
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 progress.setVisibility(View.GONE);
                 mIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                mIcon.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.scale));
+                ScaleAnimation animation = new ScaleAnimation(160f/750f, 1.0f, 160f/750f, 1.0f,
+                        Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
+                animation.setDuration(200);
+                mIcon.startAnimation(animation);
                 return false;
             }
         };
