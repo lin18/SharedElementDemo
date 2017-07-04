@@ -105,7 +105,7 @@ public class ImageFragment extends Fragment {
                 builder.placeholder(R.drawable.ic_image);
 
             builder.listener(setListener())
-                    .into(mIcon);
+                    .into(setTarget());
         }
 //        Picasso.with(getActivity())
 //                .load(photo.getPhotoUrl(1080))
@@ -152,7 +152,8 @@ public class ImageFragment extends Fragment {
         return new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                getActivity().startPostponedEnterTransition();
+                mIcon.setImageDrawable(resource);
+                getActivity().startPostponedEnterTransition();
             }
         };
     }
